@@ -114,7 +114,7 @@ string colorShoe(char color)
 
 	default:
 	{
-		colorstr = "#Not color";
+		colorstr = color;
 	}
 	}
 	return colorstr;
@@ -218,10 +218,9 @@ void outputShops(shop* shops, int size, int sizeseller, int sizeshoes)
 	cout << endl;
 }
 
-void shearchNameShop(shop* shops, int size, int sizeseller, int sizeshoes)
+void searchNameShop(shop* shops, int size, int sizeseller, int sizeshoes)
 {
 	string word;
-	clear();
 	cout << "Enter name shop: ";
 	cin >> word;
 	for (int i = 0; i < size; i++)
@@ -232,10 +231,9 @@ void shearchNameShop(shop* shops, int size, int sizeseller, int sizeshoes)
 		}
 	}
 }
-void shearchAddressShop(shop* shops, int size, int sizeseller, int sizeshoes)
+void searchAddressShop(shop* shops, int size, int sizeseller, int sizeshoes)
 {
 	string word;
-	clear();
 	cout << "Enter address shop: ";
 	cin >> word;
 	for (int i = 0; i < size; i++)
@@ -246,10 +244,9 @@ void shearchAddressShop(shop* shops, int size, int sizeseller, int sizeshoes)
 		}
 	}
 }
-void shearchSeller(shop* shops, int size, int sizeseller, int sizeshoes)
+void searchSeller(shop* shops, int size, int sizeseller, int sizeshoes)
 {
 	seller tmp;
-	clear();
 	fillingSeller(tmp);
 	for (int i = 0; i < size; i++)
 	{
@@ -265,10 +262,9 @@ void shearchSeller(shop* shops, int size, int sizeseller, int sizeshoes)
 		}
 	}
 }
-void shearchShoe(shop* shops, int size, int sizeseller, int sizeshoes)
+void searchShoe(shop* shops, int size, int sizeseller, int sizeshoes)
 {
 	shoes tmp;
-	clear();
 	fillingShoe(tmp);
 	for (int i = 0; i < size; i++)
 	{
@@ -286,9 +282,9 @@ void shearchShoe(shop* shops, int size, int sizeseller, int sizeshoes)
 }
 
 
-
 int main()
 {
+	char symbol;
 	cout << "\t\t\tWelcome to the PittaRosso chain of stores!\n\n";
 	int amountshops, amountshoes, amountseller;
 	cout << "Enter number of shops: ";
@@ -299,15 +295,42 @@ int main()
 	cin >> amountseller;
 	shop* shops = creatShops(amountshops, amountshoes, amountseller);
 	shops = fillingShops(shops, amountshops, amountseller, amountshoes);
-	outputShops(shops, amountshops, amountseller, amountshoes);
-	shearchNameShop(shops, amountshops, amountseller, amountshoes);
-	_getch();
-	shearchAddressShop(shops, amountshops, amountseller, amountshoes);
-	_getch();
-	shearchSeller(shops, amountshops, amountseller, amountshoes);
-	_getch();
-	shearchShoe(shops, amountshops, amountseller, amountshoes);
-	_getch();
+	do
+	{
+		clear();
+		cout << "Output all - 1,\nSearch name shop - 2,\nSearch address shop - 3,\nSearch seller - 4,\nSearch shoe - 5,\nExit - 0\n\nEnter number: ";
+		cin >> symbol;
+		clear();
+		switch (symbol)
+		{
+		case '1':
+		{
+			outputShops(shops, amountshops, amountseller, amountshoes);
+		}break;
+		case '2':
+		{
+			searchNameShop(shops, amountshops, amountseller, amountshoes);
+		}break;
+		case '3':
+		{
+			searchAddressShop(shops, amountshops, amountseller, amountshoes);
+		}break;
+		case '4':
+		{
+			searchSeller(shops, amountshops, amountseller, amountshoes);
+		}break;
+		case '5':
+		{
+			searchShoe(shops, amountshops, amountseller, amountshoes);
+		}break;
+		case '0':
+		{
+			exit(1);
+		}break;
+		}
+		cout << "Press any key. . .";
+		_getch();
+	} while (true);
 	removeShops(shops);
 	return 0;
 }
