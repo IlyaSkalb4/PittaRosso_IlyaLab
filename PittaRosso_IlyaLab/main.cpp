@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include <string>
 
 #define clear() system("cls")
@@ -9,7 +10,6 @@ struct shoes
 {
 	string name;
 	char color;
-	int size;
 };
 struct seller
 {
@@ -33,8 +33,11 @@ void removeShops(shop* shops)
 shop* creatShops(int amountshops,int amountshoes,int amountseller)
 {
 	shop* shops = new shop[amountshops];
-	shops->pair = new shoes[amountshoes];
-	shops->salesman = new seller[amountseller];
+	for (int i = 0; i < amountshops; i++)
+	{
+		shops[i].pair = new shoes[amountshoes];
+		shops[i].salesman = new seller[amountseller];
+	}
 	clear();
 	return shops;
 }
@@ -121,13 +124,11 @@ void fillingShoe(shoes& shoe)
 {
 	cout << "Enter shoes name: ";
 	cin >> shoe.name;
-	cout << "Enter shoes size: ";
-	cin >> shoe.size;
 	clear();
 	cout << "0 = black,\n1 = blue,\n2 = green,\n3 = cyan,\n4 = red,\n5 = purple,\n6 = yellow,\n7 - white,\n";
 	cout << "8 = grey,\n9 = light blue,\na = light green,\nb = light cyan,\nc = light red,\n";
 	cout << "d = light purple,\ne = light yellow,\nf = pure white\n";
-	cout << "Enter shoes clolor: ";
+	cout << "Enter shoes color: ";
 	cin >> shoe.color;
 }
 shoes* fillingShoes(shoes* shoes, int size)
@@ -149,7 +150,6 @@ seller* fillingSellers(seller* salesmans, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
-		cin.ignore();
 		fillingSeller(salesmans[i]);
 	}
 	return salesmans;
@@ -176,7 +176,7 @@ void outputShoe(shoes shoe)
 {
 	string color;
 	cout << "Name shou: " << shoe.name;
-	cout << "\tSize shou: " << shoe.size << "\t";
+	cout << "\t";
 	color = colorShoe(shoe.color);
 	cout << "Color: " << color;
 	cout << endl;
@@ -218,10 +218,78 @@ void outputShops(shop* shops, int size, int sizeseller, int sizeshoes)
 	cout << endl;
 }
 
+void shearchNameShop(shop* shops, int size, int sizeseller, int sizeshoes)
+{
+	string word;
+	clear();
+	cout << "Enter name shop: ";
+	cin >> word;
+	for (int i = 0; i < size; i++)
+	{
+		if (strcmp(shops[i].name.c_str(), word.c_str()) == 0)
+		{
+			outputShop(shops[i], sizeseller, sizeshoes);
+		}
+	}
+}
+void shearchAddressShop(shop* shops, int size, int sizeseller, int sizeshoes)
+{
+	string word;
+	clear();
+	cout << "Enter address shop: ";
+	cin >> word;
+	for (int i = 0; i < size; i++)
+	{
+		if (strcmp(shops[i].address.c_str(), word.c_str()) == 0)
+		{
+			outputShop(shops[i], sizeseller, sizeshoes);
+		}
+	}
+}
+void shearchSeller(shop* shops, int size, int sizeseller, int sizeshoes)
+{
+	seller tmp;
+	clear();
+	fillingSeller(tmp);
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < sizeseller; j++)
+		{
+			if (strcmp(shops[i].salesman[j].name.c_str(), tmp.name.c_str()) == 0)
+			{
+				if (shops[i].salesman[j].age == tmp.age)
+				{
+					outputShop(shops[i], sizeseller, sizeshoes);
+				}
+			}
+		}
+	}
+}
+void shearchShoe(shop* shops, int size, int sizeseller, int sizeshoes)
+{
+	shoes tmp;
+	clear();
+	fillingShoe(tmp);
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < sizeshoes; j++)
+		{
+			if (strcmp(shops[i].pair[j].name.c_str(), tmp.name.c_str()) == 0)
+			{
+				if (shops[i].pair[j].color == tmp.color)
+				{
+					outputShop(shops[i], sizeseller, sizeshoes);
+				}
+			}
+		}
+	}
+}
+
+
+
 int main()
 {
-	//system("color 7c");
-	//cout << "\t\t\tWelcome to the PittaRosso chain of stores\n\n";
+	cout << "\t\t\tWelcome to the PittaRosso chain of stores!\n\n";
 	int amountshops, amountshoes, amountseller;
 	cout << "Enter number of shops: ";
 	cin >> amountshops;
@@ -232,6 +300,14 @@ int main()
 	shop* shops = creatShops(amountshops, amountshoes, amountseller);
 	shops = fillingShops(shops, amountshops, amountseller, amountshoes);
 	outputShops(shops, amountshops, amountseller, amountshoes);
+	shearchNameShop(shops, amountshops, amountseller, amountshoes);
+	_getch();
+	shearchAddressShop(shops, amountshops, amountseller, amountshoes);
+	_getch();
+	shearchSeller(shops, amountshops, amountseller, amountshoes);
+	_getch();
+	shearchShoe(shops, amountshops, amountseller, amountshoes);
+	_getch();
 	removeShops(shops);
 	return 0;
 }
